@@ -10,7 +10,6 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
@@ -25,7 +24,7 @@
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         
-        .animate-fade-in { animation: fadeIn 0.5s ease-out; }
+        .animate-fade-in { animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
@@ -55,23 +54,24 @@
             return s;
         };
 
+        // Custom Icon components that accept props
         const Icons = {
-            FileUp: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M12 12v6"/><path d="m15 15-3-3-3 3"/></svg>,
-            Settings: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>,
-            Save: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>,
-            FolderOpen: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/></svg>,
-            Play: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>,
-            Pause: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>,
-            Download: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>,
-            CheckCircle: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>,
-            AlertCircle: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>,
-            Sparkles: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M9 5H5"/><path d="M5 19v-4"/><path d="M9 19H5"/></svg>,
-            Book: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>,
-            Plus: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>,
-            Trash: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>,
-            X: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>,
-            Pencil: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>,
-            Check: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            FileUp: ({size=24, className=""}) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M12 12v6"/><path d="m15 15-3-3-3 3"/></svg>,
+            Settings: ({size=24, className=""}) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>,
+            Save: ({size=24, className=""}) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>,
+            FolderOpen: ({size=24, className=""}) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/></svg>,
+            Play: ({size=24, className=""}) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>,
+            Pause: ({size=24, className=""}) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>,
+            Download: ({size=24, className=""}) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>,
+            CheckCircle: ({size=24, className=""}) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>,
+            AlertCircle: ({size=24, className=""}) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>,
+            Sparkles: ({size=24, className=""}) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M9 5H5"/><path d="M5 19v-4"/><path d="M9 19H5"/></svg>,
+            Book: ({size=24, className=""}) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>,
+            Plus: ({size=24, className=""}) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>,
+            Trash: ({size=24, className=""}) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>,
+            X: ({size=24, className=""}) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>,
+            Pencil: ({size=24, className=""}) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>,
+            Check: ({size=24, className=""}) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         };
 
         const Toast = ({ message, type, onClose }) => {
@@ -186,12 +186,12 @@
             const [data, setData] = useState([]);
             const [columns, setColumns] = useState([]);
             
-            // Added batchSize to config with default 100 as requested
+            // Fixed unescaped quotes in the default prompt
             const [config, setConfig] = useState({
                 model: 'gemini-3-flash-preview',
                 batchSize: 100,
                 outputCol: 'D',
-                prompt: '영어 어휘 {A}, 의미 {B}가 서로 통하고, 맞춤법에 이상 있는지, 그리고 예문 '{C}'에도 품사와 의미가 맞게 들어갔는지 확인 후 문제 없는 경우 "O" 표시하세요. 하나라도 문제가 있을 경우 "X" 하세요. 부가설명 없이 O/X만을 출력합니다.',
+                prompt: "영어 어휘 {A}, 의미 {B}가 서로 통하고, 맞춤법에 이상 있는지, 그리고 예문 '{C}'에도 품사와 의미가 맞게 들어갔는지 확인 후 문제 없는 경우 'O' 표시하세요. 하나라도 문제가 있을 경우 'X' 하세요. 부가설명 없이 O/X만을 출력합니다.",
             });
             const [bookmarks, setBookmarks] = useState([]);
             const [isBookmarkModalOpen, setIsBookmarkModalOpen] = useState(false);
@@ -206,8 +206,9 @@
 
             // API Handler
             const callGemini = async (promptText) => {
+                const API_KEY = apiKey || "";
                 try {
-                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${config.model}:generateContent?key=${apiKey}`, {
+                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${config.model}:generateContent?key=${API_KEY}`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
@@ -217,14 +218,13 @@
                         const err = await response.json();
                         throw new Error(err.error?.message || 'API request failed');
                     }
-                    const data = await response.json();
-                    return data.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
+                    const result = await response.json();
+                    return result.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
                 } catch (error) {
                     return `Error: ${error.message}`;
                 }
             };
 
-            // Logic
             const handleFileUpload = (e) => {
                 const selectedFile = e.target.files[0];
                 if (!selectedFile) return;
@@ -232,8 +232,8 @@
                 setFile(selectedFile);
                 const reader = new FileReader();
                 reader.onload = (evt) => {
-                    const bstr = evt.target.result;
-                    const wb = XLSX.read(bstr, { type: 'binary' });
+                    const data = new Uint8Array(evt.target.result);
+                    const wb = XLSX.read(data, { type: 'array' });
                     const wsname = wb.SheetNames[0];
                     const ws = wb.Sheets[wsname];
                     const jsonData = XLSX.utils.sheet_to_json(ws, { header: 1 });
@@ -244,24 +244,23 @@
                     const cols = Array.from({ length: Math.max(maxCols, 26) }, (_, i) => num2col(i));
                     setColumns(cols);
                 };
-                reader.readAsBinaryString(selectedFile);
+                reader.readAsArrayBuffer(selectedFile);
             };
 
-            // Enhanced to handle batching natively
             const getBatchPrompt = (batchData) => {
                 let itemLines = batchData.map((row, i) => {
                     let p = config.prompt;
                     const rowText = p.replace(/\{([A-Za-z]+)\}/g, (match, col) => {
                         const idx = col2num(col.toUpperCase());
-                        return row[idx] !== undefined ? row[idx] : "";
+                        return (row[idx] !== undefined && row[idx] !== null) ? row[idx] : "";
                     });
                     return `Item ${i + 1}: ${rowText}`;
                 }).join("\n");
 
                 return `Process the following ${batchData.length} items.
-For each item, strictly follow the instructions within its text.
+For each item, strictly follow the instructions.
 Output ONLY your final result for each item, with each result on a new line. 
-Do NOT include item numbers, bullet points, or markdown formatting.
+Do NOT include item numbers, bullet points, preamble, or any extra text.
 Your output MUST contain exactly ${batchData.length} lines.
 
 ${itemLines}`;
@@ -271,8 +270,8 @@ ${itemLines}`;
                 if (!apiKey) return setToast({ msg: 'Please enter your Gemini API Key first.', type: 'error' });
                 if (data.length === 0) return setToast({ msg: 'Please load a file first.', type: 'error' });
                 
-                setPreviewResult("Generating...");
-                const batchSize = config.batchSize || 100;
+                setPreviewResult("Generating test batch...");
+                const batchSize = Math.min(config.batchSize || 10, data.length);
                 const batchData = data.slice(0, batchSize);
                 
                 const prompt = getBatchPrompt(batchData);
@@ -287,9 +286,7 @@ ${itemLines}`;
                 const a = document.createElement('a');
                 a.href = url;
                 a.download = 'excel_cooker_settings.json';
-                document.body.appendChild(a);
                 a.click();
-                document.body.removeChild(a);
                 URL.revokeObjectURL(url);
                 setToast({ msg: 'Settings & Bookmarks saved!', type: 'success' });
             };
@@ -335,42 +332,47 @@ ${itemLines}`;
                 const outputIdx = col2num(config.outputCol.toUpperCase());
                 const newData = [...data];
                 const total = newData.length;
-                const batchSize = config.batchSize || 100;
+                const batchSize = config.batchSize || 10;
 
-                newData.forEach(row => { while (row.length <= outputIdx) row.push(null); });
-
-                // Process in steps of batchSize
                 for (let i = 0; i < total; i += batchSize) {
                     if (stopSignalRef.current) {
-                        setLogs(prev => [`Stopped by user at row ${i}`, ...prev].slice(0, 5));
-                        setToast({ msg: `Stopped! Saved up to row ${i}.`, type: 'success' });
+                        setLogs(prev => [`Stopped at row ${i}`, ...prev].slice(0, 5));
                         break; 
                     }
 
-                    const batchData = newData.slice(i, i + batchSize);
-                    const prompt = getBatchPrompt(batchData);
+                    const endIdx = Math.min(i + batchSize, total);
+                    const currentBatch = newData.slice(i, endIdx);
+                    const prompt = getBatchPrompt(currentBatch);
                     
                     try {
-                        const result = await callGemini(prompt);
+                        const rawResult = await callGemini(prompt);
+                        const results = rawResult.split('\n').filter(line => line.trim() !== "");
                         
-                        // ONLY print the output in the very first cell of the current chunk range
-                        newData[i][outputIdx] = result.trim(); 
+                        // Map results back to rows
+                        for(let j = 0; j < currentBatch.length; j++) {
+                            const rowIndex = i + j;
+                            if (!newData[rowIndex]) newData[rowIndex] = [];
+                            while (newData[rowIndex].length <= outputIdx) newData[rowIndex].push(null);
+                            
+                            // If AI returned fewer lines than requested, handle it
+                            newData[rowIndex][outputIdx] = results[j] ? results[j].trim() : "AI Skip";
+                        }
                         
-                        setLogs(prev => [`Batch ${Math.floor(i/batchSize) + 1} (Rows ${i+1}-${Math.min(i+batchSize, total)}): Success`, ...prev].slice(0, 5));
+                        setLogs(prev => [`Batch ${Math.floor(i/batchSize) + 1} (Rows ${i+1}-${endIdx}): Success`, ...prev].slice(0, 5));
                     } catch (e) {
-                        newData[i][outputIdx] = "Error: " + e.message;
-                        setLogs(prev => [`Batch ${Math.floor(i/batchSize) + 1}: Failed`, ...prev].slice(0, 5));
+                        setLogs(prev => [`Batch ${Math.floor(i/batchSize) + 1}: Failed - ${e.message}`, ...prev].slice(0, 5));
                     }
 
-                    setProgress(Math.round((Math.min(i + batchSize, total) / total) * 100));
+                    setProgress(Math.round((endIdx / total) * 100));
                     setData([...newData]);
 
-                    if ((i/batchSize) % 2 === 0) await new Promise(r => setTimeout(r, 1000)); // Delay to prevent API spamming
+                    // Small delay to respect rate limits
+                    await new Promise(r => setTimeout(r, 500));
                 }
 
                 setProcessing(false);
                 if (!stopSignalRef.current) {
-                    setToast({ msg: 'Processing complete! Ready to download.', type: 'success' });
+                    setToast({ msg: 'Processing complete!', type: 'success' });
                 }
             };
 
@@ -378,12 +380,12 @@ ${itemLines}`;
                 const ws = XLSX.utils.aoa_to_sheet(data);
                 const wb = XLSX.utils.book_new();
                 XLSX.utils.book_append_sheet(wb, ws, "Processed");
-                const newName = fileName.replace(/(\.[\w\d_-]+)$/i, '_cooked$1');
-                XLSX.writeFile(wb, newName || 'cooked_data.xlsx');
+                const newName = fileName ? fileName.replace(/(\.[\w\d_-]+)$/i, '_cooked$1') : 'cooked_data.xlsx';
+                XLSX.writeFile(wb, newName);
             };
 
             return (
-                <div className="min-h-screen pb-20">
+                <div className="min-h-screen pb-32">
                     {toast && <Toast message={toast.msg} type={toast.type} onClose={() => setToast(null)} />}
                     <BookmarkModal 
                         isOpen={isBookmarkModalOpen}
@@ -396,24 +398,23 @@ ${itemLines}`;
                     />
 
                     <header className="bg-white shadow-sm sticky top-0 z-30">
-                        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+                        <div className="max-w-6xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
                             <div className="flex items-center gap-3">
                                 <div className="bg-indigo-600 p-2 rounded-lg text-white"><Icons.Sparkles size={24} /></div>
                                 <h1 className="text-xl font-bold text-gray-800 tracking-tight">Excel AI Batch Cooker</h1>
                             </div>
-                            <div className="flex items-center gap-4">
-                                <input type="password" placeholder="Paste Gemini API Key here" className="border border-gray-300 rounded-md px-4 py-2 text-sm w-64 focus:outline-none focus:ring-2 focus:ring-indigo-500" value={apiKey} onChange={(e) => setApiKey(e.target.value)} />
-                                <a href="https://aistudio.google.com/app/apikey" target="_blank" className="text-xs text-indigo-600 hover:underline">Get Key</a>
+                            <div className="flex items-center gap-4 w-full md:w-auto">
+                                <input type="password" placeholder="Gemini API Key" className="border border-gray-300 rounded-md px-4 py-2 text-sm flex-1 md:w-64 focus:outline-none focus:ring-2 focus:ring-indigo-500" value={apiKey} onChange={(e) => setApiKey(e.target.value)} />
+                                <a href="https://aistudio.google.com/app/apikey" target="_blank" className="text-xs text-indigo-600 hover:underline shrink-0">Get Key</a>
                             </div>
                         </div>
                     </header>
 
                     <main className="max-w-6xl mx-auto px-6 py-8 space-y-8">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            {/* File Upload Card */}
                             <div className="col-span-1 bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col">
                                 <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2"><Icons.FileUp size={20} className="text-indigo-500"/> 1. Upload File</h2>
-                                <div className="border-2 border-dashed border-gray-300 rounded-lg flex-1 flex flex-col items-center justify-center p-6 text-center hover:bg-gray-50 transition-colors relative">
+                                <div className="border-2 border-dashed border-gray-300 rounded-lg flex-1 flex flex-col items-center justify-center p-6 text-center hover:bg-gray-50 transition-colors relative min-h-[150px]">
                                     <input type="file" accept=".xlsx, .csv, .xls" onChange={handleFileUpload} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
                                     <div className="bg-indigo-50 p-4 rounded-full mb-3 text-indigo-600"><Icons.FileUp size={24} /></div>
                                     <p className="text-sm font-medium text-gray-700">{fileName ? fileName : "Drag & drop or click"}</p>
@@ -421,14 +422,13 @@ ${itemLines}`;
                                 </div>
                             </div>
 
-                            {/* Configuration Card */}
                             <div className="col-span-1 md:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                                 <div className="flex justify-between items-center mb-4">
                                     <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2"><Icons.Settings size={20} className="text-indigo-500"/> 2. Configuration</h2>
                                     <div className="flex gap-2">
                                         <input type="file" ref={fileInputRef} onChange={handleLoadSettings} className="hidden" accept=".json" />
-                                        <button onClick={() => fileInputRef.current.click()} className="text-xs flex items-center gap-1.5 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-3 py-1.5 rounded-md transition-colors shadow-sm"><Icons.FolderOpen size={14} /> Load</button>
-                                        <button onClick={handleSaveSettings} className="text-xs flex items-center gap-1.5 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-3 py-1.5 rounded-md transition-colors shadow-sm"><Icons.Save size={14} /> Save</button>
+                                        <button onClick={() => fileInputRef.current.click()} className="text-xs flex items-center gap-1.5 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-3 py-1.5 rounded-md transition-colors"><Icons.FolderOpen size={14} /> Load</button>
+                                        <button onClick={handleSaveSettings} className="text-xs flex items-center gap-1.5 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-3 py-1.5 rounded-md transition-colors"><Icons.Save size={14} /> Save</button>
                                     </div>
                                 </div>
                                 
@@ -436,17 +436,17 @@ ${itemLines}`;
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                         <div>
                                             <label className="block text-xs font-semibold text-gray-500 uppercase mb-1">AI Model</label>
-                                            <select className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" value={config.model} onChange={(e) => setConfig({...config, model: e.target.value})}>
+                                            <select className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none" value={config.model} onChange={(e) => setConfig({...config, model: e.target.value})}>
                                                 <option value="gemini-3-flash-preview">Gemini 3 Flash</option>
                                             </select>
                                         </div>
                                         <div>
-                                            <label className="block text-xs font-semibold text-gray-500 uppercase mb-1">Batch Size (Rows)</label>
-                                            <input type="number" min="1" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-center font-mono" value={config.batchSize} onChange={(e) => setConfig({...config, batchSize: parseInt(e.target.value) || 100})} />
+                                            <label className="block text-xs font-semibold text-gray-500 uppercase mb-1">Batch Size</label>
+                                            <input type="number" min="1" max="50" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-center font-mono" value={config.batchSize} onChange={(e) => setConfig({...config, batchSize: parseInt(e.target.value) || 1})} />
                                         </div>
                                         <div>
                                             <label className="block text-xs font-semibold text-gray-500 uppercase mb-1">Output Column</label>
-                                            <input type="text" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-center uppercase font-mono" value={config.outputCol} onChange={(e) => setConfig({...config, outputCol: e.target.value.toUpperCase()})} maxLength={2} />
+                                            <input type="text" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-center uppercase font-mono" value={config.outputCol} onChange={(e) => setConfig({...config, outputCol: e.target.value.toUpperCase()})} maxLength={2} />
                                         </div>
                                     </div>
 
@@ -454,26 +454,25 @@ ${itemLines}`;
                                         <div className="flex justify-between items-end mb-2">
                                             <div className="flex items-center gap-2">
                                                 <label className="block text-xs font-semibold text-gray-500 uppercase">Prompt Template</label>
-                                                <span className="text-xs text-gray-400">Applied per row in the batch. Output placed in first cell.</span>
+                                                <span className="text-[10px] text-gray-400">Use {`{A}`}, {`{B}`} for columns.</span>
                                             </div>
-                                            <button onClick={() => setIsBookmarkModalOpen(true)} className="text-xs flex items-center gap-1.5 bg-white text-gray-600 px-2 py-1 rounded-md hover:bg-gray-100 transition-colors border border-gray-200 shadow-sm"><Icons.Settings size={14}/> Manage</button>
+                                            <button onClick={() => setIsBookmarkModalOpen(true)} className="text-xs flex items-center gap-1 bg-white text-gray-600 px-2 py-1 rounded-md border border-gray-200"><Icons.Settings size={12}/> Manage</button>
                                         </div>
                                         
                                         <div className="flex flex-wrap gap-2 mb-2 max-h-24 overflow-y-auto">
                                             {bookmarks.map((bm, idx) => {
                                                 const isActive = config.prompt === bm.prompt;
                                                 return (
-                                                    <button key={idx} onClick={() => setConfig({...config, prompt: bm.prompt})} className={`px-3 py-1.5 text-xs rounded-full border transition-colors flex items-center gap-1 ${isActive ? 'bg-indigo-600 text-white border-indigo-600 font-medium' : 'bg-white text-gray-600 border-gray-200 hover:border-indigo-400 hover:text-indigo-600'}`}>{isActive && <Icons.Check size={10} strokeWidth={3} />}{bm.name}</button>
+                                                    <button key={idx} onClick={() => setConfig({...config, prompt: bm.prompt})} className={`px-3 py-1 text-xs rounded-full border transition-colors flex items-center gap-1 ${isActive ? 'bg-indigo-600 text-white' : 'bg-white text-gray-600 hover:border-indigo-400'}`}>{isActive && <Icons.Check size={10} />}{bm.name}</button>
                                                 );
                                             })}
-                                            {bookmarks.length === 0 && <span className="text-xs text-gray-400 italic py-1 px-1">No saved prompts</span>}
                                         </div>
 
-                                        <textarea className="w-full h-24 bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none font-mono" value={config.prompt} onChange={(e) => setConfig({...config, prompt: e.target.value})} placeholder="Write your prompt here..."></textarea>
+                                        <textarea className="w-full h-24 bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none font-mono" value={config.prompt} onChange={(e) => setConfig({...config, prompt: e.target.value})}></textarea>
                                     </div>
 
                                     <div className="flex justify-end">
-                                        <button onClick={runTest} disabled={!data.length} className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Test First Batch</button>
+                                        <button onClick={runTest} disabled={!data.length} className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium disabled:opacity-50">Test Batch Output</button>
                                     </div>
                                 </div>
                             </div>
@@ -481,9 +480,16 @@ ${itemLines}`;
 
                         {/* Preview Section */}
                         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                             <div className="p-4 border-b border-gray-100 flex justify-between items-start bg-gray-50">
-                                <h2 className="text-sm font-semibold text-gray-700 mt-1">Data Preview (First 5 Rows)</h2>
-                                {previewResult && <div className="text-xs flex items-start gap-2"><span className="font-semibold text-indigo-600 mt-1">Test Result ({config.outputCol}1):</span><div className="bg-indigo-100 text-indigo-800 px-3 py-2 rounded max-h-32 overflow-y-auto whitespace-pre-wrap font-mono min-w-[150px] shadow-inner">{previewResult}</div></div>}
+                             <div className="p-4 border-b border-gray-100 flex flex-col md:flex-row justify-between items-start bg-gray-50 gap-4">
+                                <h2 className="text-sm font-semibold text-gray-700">Data Preview (First 10 Rows)</h2>
+                                {previewResult && (
+                                    <div className="text-xs flex flex-col gap-1 w-full md:w-1/2">
+                                        <span className="font-semibold text-indigo-600">Batch Response Preview:</span>
+                                        <div className="bg-indigo-100 text-indigo-900 px-3 py-2 rounded max-h-32 overflow-y-auto whitespace-pre-wrap font-mono shadow-inner text-[11px] leading-relaxed border border-indigo-200">
+                                            {previewResult}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                             
                             <div className="overflow-x-auto">
@@ -491,43 +497,41 @@ ${itemLines}`;
                                     <thead className="text-xs text-gray-700 uppercase bg-gray-100 border-b">
                                         <tr>
                                             <th className="px-4 py-3 w-10 text-center bg-gray-200">#</th>
-                                            {columns.slice(0, 15).map((col) => (
-                                                <th key={col} className={`px-4 py-3 border-r min-w-[80px] ${col === config.outputCol ? 'bg-indigo-100 text-indigo-800 border-indigo-200' : ''}`}>{col}</th>
+                                            {columns.slice(0, 10).map((col) => (
+                                                <th key={col} className={`px-4 py-3 border-r min-w-[100px] ${col === config.outputCol ? 'bg-indigo-100 text-indigo-800' : ''}`}>{col}</th>
                                             ))}
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {data.slice(0, 5).map((row, rIdx) => (
+                                        {data.slice(0, 10).map((row, rIdx) => (
                                             <tr key={rIdx} className="bg-white border-b hover:bg-gray-50">
                                                 <td className="px-4 py-3 text-center font-mono text-xs bg-gray-50 border-r">{rIdx + 1}</td>
-                                                {columns.slice(0, 15).map((col, cIdx) => {
+                                                {columns.slice(0, 10).map((col, cIdx) => {
                                                     const colNum = col2num(col);
                                                     const val = row[colNum];
-                                                    // Output result is stored on the 1st row of the batch and supports newlines
-                                                    const isTestCell = rIdx === 0 && col === config.outputCol && previewResult;
                                                     return (
-                                                        <td key={cIdx} className={`px-4 py-2 border-r max-w-[200px] align-top ${col === config.outputCol ? 'bg-indigo-50/30 whitespace-pre-wrap' : 'truncate'}`}>
-                                                            {isTestCell ? <span className="font-semibold text-indigo-700 leading-tight">{previewResult}</span> : (val !== undefined ? String(val) : "")}
+                                                        <td key={cIdx} className={`px-4 py-2 border-r max-w-[200px] align-top ${col === config.outputCol ? 'bg-indigo-50/30' : ''}`}>
+                                                            <div className="truncate text-xs">{(val !== undefined && val !== null) ? String(val) : ""}</div>
                                                         </td>
                                                     );
                                                 })}
                                             </tr>
                                         ))}
-                                        {data.length === 0 && <tr><td colSpan="16" className="px-6 py-10 text-center text-gray-400">No file loaded yet. Upload an Excel file to see the preview.</td></tr>}
+                                        {data.length === 0 && <tr><td colSpan="12" className="px-6 py-12 text-center text-gray-400 italic">No file loaded yet.</td></tr>}
                                     </tbody>
                                 </table>
                             </div>
                         </div>
 
-                        {/* Action Bar */}
-                        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-lg z-40">
-                            <div className="max-w-6xl mx-auto flex items-center gap-6">
-                                <div className="flex-1">
+                        {/* Sticky Action Bar */}
+                        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] z-40">
+                            <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-6">
+                                <div className="flex-1 w-full">
                                     {processing ? (
                                         <div className="space-y-2">
                                             <div className="flex justify-between text-xs font-medium text-gray-600">
-                                                <span>Processing... {progress}%</span>
-                                                <span>{logs[0] || 'Starting...'}</span>
+                                                <span>Cooking... {progress}%</span>
+                                                <span className="truncate max-w-[200px]">{logs[0] || 'Preparing...'}</span>
                                             </div>
                                             <div className="w-full bg-gray-200 rounded-full h-2.5">
                                                 <div className="bg-indigo-600 h-2.5 rounded-full transition-all duration-300" style={{width: `${progress}%`}}></div>
@@ -535,35 +539,23 @@ ${itemLines}`;
                                         </div>
                                     ) : (
                                         <div className="text-sm text-gray-600">
-                                            {data.length > 0 ? <span>Ready to process <strong>{data.length}</strong> rows in batches of {config.batchSize}.</span> : <span>Waiting for file...</span>}
+                                            {data.length > 0 ? <span>Loaded <strong>{data.length}</strong> rows. Batch size: {config.batchSize}.</span> : <span>Upload a file to start batch processing.</span>}
                                         </div>
                                     )}
                                 </div>
 
-                                <div className="flex gap-3">
+                                <div className="flex gap-3 w-full md:w-auto">
                                     {processing ? (
-                                        <button 
-                                            onClick={stopProcessing}
-                                            className="flex items-center gap-2 px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl font-semibold shadow-lg shadow-red-200 transition-all transform hover:-translate-y-0.5"
-                                        >
-                                            <Icons.Pause size={20} fill="currentColor" /> Stop & Save
+                                        <button onClick={stopProcessing} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl font-semibold shadow-lg shadow-red-100 transition-all">
+                                            <Icons.Pause size={20} /> Stop
                                         </button>
                                     ) : (
-                                        <button 
-                                            onClick={startProcessing}
-                                            disabled={!data.length || !apiKey}
-                                            className={`flex items-center gap-2 px-6 py-3 rounded-xl text-white font-semibold shadow-lg shadow-indigo-200 transition-all transform hover:-translate-y-0.5 
-                                                ${!data.length || !apiKey ? 'bg-gray-400 cursor-not-allowed shadow-none' : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700'}`}
-                                        >
-                                            <Icons.Play size={20} fill="currentColor" /> Start Batching
+                                        <button onClick={startProcessing} disabled={!data.length || !apiKey} className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-8 py-3 rounded-xl text-white font-semibold shadow-lg transition-all ${!data.length || !apiKey ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700 shadow-indigo-100'}`}>
+                                            <Icons.Play size={20} /> Start Cooking
                                         </button>
                                     )}
 
-                                    <button 
-                                        onClick={downloadResult}
-                                        disabled={processing || !data.length}
-                                        className="flex items-center gap-2 px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-semibold shadow-lg shadow-emerald-200 transition-all transform hover:-translate-y-0.5 disabled:bg-gray-300 disabled:shadow-none disabled:cursor-not-allowed"
-                                    >
+                                    <button onClick={downloadResult} disabled={processing || !data.length} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-semibold shadow-lg shadow-emerald-100 transition-all disabled:opacity-50">
                                         <Icons.Download size={20} /> Download
                                     </button>
                                 </div>
