@@ -188,10 +188,10 @@
             
             // Added batchSize to config with default 100 as requested
             const [config, setConfig] = useState({
-                model: 'gemini-3.1-flash-lite-preview',
+                model: 'gemini-3.1-pro-preview',
                 batchSize: 100,
                 outputCol: 'D',
-                prompt: '영어 어휘 {B}, 의미 {C}가 서로 부합하며, 맞춤법에 이상 있는지 확인 후 문제 없는 경우 "O" 표시하세요. 하나라도 문제가 있을 경우 "X" 하세요. 부가설명 없이 O/X만을 출력합니다.',
+                prompt: '영어 어휘 {A}, 의미 {B}가 서로 통하고, 맞춤법에 이상 있는지, 그리고 예문 '{C}'에도 품사와 의미가 맞게 들어갔는지 확인 후 문제 없는 경우 "O" 표시하세요. 하나라도 문제가 있을 경우 "X" 하세요. 부가설명 없이 O/X만을 출력합니다.',
             });
             const [bookmarks, setBookmarks] = useState([]);
             const [isBookmarkModalOpen, setIsBookmarkModalOpen] = useState(false);
